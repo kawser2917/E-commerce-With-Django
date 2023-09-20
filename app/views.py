@@ -9,7 +9,7 @@ class home(View):
   topwears = Product.objects.filter(category='TW')
   bottomwears = Product.objects.filter(category='BW')
   mobile = Product.objects.filter(category='M')
-  return render(request, 'app/home.html', {"topwears":topwears, "bottomwears": bottomwears, "mobile":mobile})
+  return render(request, 'app/home.html', {"topwears":topwears, "bottomwears": bottomwears, "mobiles":mobile})
 
 def product_detail(request):
  return render(request, 'app/productdetail.html')
