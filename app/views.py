@@ -11,8 +11,12 @@ class home(View):
   mobile = Product.objects.filter(category='M')
   return render(request, 'app/home.html', {"topwears":topwears, "bottomwears": bottomwears, "mobiles":mobile})
 
-def product_detail(request):
- return render(request, 'app/productdetail.html')
+# def product_detail(request):
+#  return render(request, 'app/productdetail.html')
+class ProductDetailView(View):
+ def get(self,request,pk):
+  product = Product.objects.get(pk=pk)
+  return render(request,"app/productdetail.html",{"product":product})
 
 def add_to_cart(request):
  return render(request, 'app/addtocart.html')
@@ -32,8 +36,16 @@ def orders(request):
 def change_password(request):
  return render(request, 'app/changepassword.html')
 
-def mobile(request):
- return render(request, 'app/mobile.html')
+def mobile(request,data=None):
+  if data == None:
+   mobile = Product.objects.filter(category ="M")
+  elif data == "Apple" or data == "Samsung" or data == "Realme" or data == "Oneplus":
+   mobile = Product.objects.filter(category="M").filter(brand = data)
+  elif data == "below":
+   mobile = Product.objects.filter(category="M").filter(discount_price__lt =10000)
+  elif data == "above":
+   mobile = Product.objects.filter(category="M").filter(discount_price__gt =10000)
+  return render(request, 'app/mobile.html',{"mobiles":mobile})
 
 def login(request):
  return render(request, 'app/login.html')
