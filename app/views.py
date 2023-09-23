@@ -47,6 +47,19 @@ def mobile(request,data=None):
    mobile = Product.objects.filter(category="M").filter(discount_price__gt =10000)
   return render(request, 'app/mobile.html',{"mobiles":mobile})
 
+def top_wear(request,data = None):
+ if data == None:
+  topwear = Product.objects.filter(category ="TW")
+ elif data == "Easy" or data == "Armani" or data == 'Top10' or data == "Richman":
+  topwear = Product.objects.filter(category = "TW").filter(brand = data)
+ return render(request,'app/topwear.html',{"topwears":topwear})
+def bottom_wear(request,data=None):
+ if data == None:
+  bottomwear = Product.objects.filter(category = "BW")
+ elif data == "Easy" or data == "Armani" or data == 'Top10' or data == "Richman":
+  bottomwear = Product.objects.filter(category = "BW").filter(brand = data)
+ return render(request,'app/bottomwear.html',{"bottomwears":bottomwear})
+
 def login(request):
  return render(request, 'app/login.html')
 
