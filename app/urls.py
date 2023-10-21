@@ -22,6 +22,7 @@ urlpatterns = [
     path('bottomwear/', views.bottom_wear, name='bottomwear'),
     path('bottomwear/<slug:data>', views.bottom_wear, name='bottomweardata'),
     path("accounts/login/",auth_views.LoginView.as_view(template_name = "app/login.html", authentication_form = LoginForm),name="login"),
+    path('logout/', auth_views.LogoutView.as_view(next_page ='login'),name="logout"),
     # path('registration/', views.customerregistration, name='customerregistration'),
     path('registration/', views.CustomerRegistration.as_view(), name='customerregistration'),
     path('checkout/', views.checkout, name='checkout'),

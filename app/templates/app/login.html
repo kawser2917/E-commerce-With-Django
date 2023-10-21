@@ -20,7 +20,7 @@
      <div class="text-center text-primary fw-bold">
         <small>New To Shoppingly X? <a href="{% url 'customerregistration'%}" class="text-danger">Create An Account</a></small>
      </div>
-     {% if from.non_field_error %}
+     {% if form.non_field_error %}
      {% for error in non_fields_errors %}
      <p class="alert alert-danger my-3">{{error}}</p>
      {% endfor %}
