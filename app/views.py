@@ -26,9 +26,6 @@ def add_to_cart(request):
 def buy_now(request):
  return render(request, 'app/buynow.html')
 
-def profile(request):
- return render(request, 'app/profile.html')
-
 def address(request):
  return render(request, 'app/address.html')
 
@@ -82,3 +79,22 @@ class CustomerRegistration(View):
 
 def checkout(request):
  return render(request, 'app/checkout.html')
+
+class ProfileView(View):
+ def get(self,request):
+  form = CustomerProfileView
+  return render(request,"app/profile.html",{"form":form,"active":"btn-primary"})
+ 
+ def post(self,request):
+  form = CustomerProfileView(request.POST)
+  if form.is_valid():
+   usr = request.user
+   name = form.cleaned_data['name']
+   locality = form.cleaned_data['locality']
+   city = form.cleaned_data['city']
+   state = form.cleaned_data['state']
+   zipcode = form.cleaned_data['zipcode']
+   reg = Customer(user=usr, name=name, locality=locality,city=city,state=state,zipcode=zipcode)
+   reg.save()
+   messages.success(request,"Congratulation!! Profile Updated Successfully")
+  return render(request,'app/profile.html',{'form':form,"active":"btn-primary"})
