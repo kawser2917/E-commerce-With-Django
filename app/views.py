@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from .models import Customer,Cart,OrderedPlaced,Product
 from .forms import *
@@ -21,7 +21,16 @@ class ProductDetailView(View):
   return render(request,"app/productdetail.html",{"product":product})
 
 def add_to_cart(request):
- return render(request, 'app/addtocart.html')
+ user = request.user
+ product_id = request.GET.get("prod_id")
+ product = Product.objects.get(id=product_id)
+ Cart(user=user,product=product).save()
+ return redirect('/cart')
+
+def show_cart(request):
+ user = request.user
+ cart = Cart.objects.filter(user=user)
+ return render(request,'app/addtocart.html',{"carts":cart})
 
 def buy_now(request):
  return render(request, 'app/buynow.html')
