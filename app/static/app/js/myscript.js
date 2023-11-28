@@ -38,6 +38,7 @@ $('.plus-cart').click(function(){
         }
     })
 })
+// Minus cart
 $('.minus-cart').click(function(){
     var id = $(this).attr("pid").toString();
     var eml = this.parentNode.children[2]
@@ -51,6 +52,23 @@ $('.minus-cart').click(function(){
             eml.innerText = data.quantity
             document.getElementById('amount').innerText = data.amount
             document.getElementById('totalamount').innerText = data.total_amount
+        }
+    })
+})
+// Remove cart
+$('.remove-cart').click(function(){
+    var id = $(this).attr("pid").toString();
+    var eml = this
+    $.ajax({
+        type: "GET",
+        url: "/removecart",
+        data: {
+            prod_id : id
+        },
+        success: function(data){
+            document.getElementById('amount').innerText = data.amount
+            document.getElementById('totalamount').innerText = data.total_amount
+            eml.parentNode.parentNode.parentNode.parentNode.remove()
         }
     })
 })
