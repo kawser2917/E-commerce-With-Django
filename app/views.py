@@ -29,12 +29,34 @@ def add_to_cart(request):
  Cart(user=user,product=product).save()
  return redirect('/cart')
 
+# Plus cart
 def plus_cart(request):
  if request.method == "GET":
   prod_id = request.GET["prod_id"]
   print(prod_id)
   c = Cart.objects.get(Q(product = prod_id) & Q(user=request.user))
   c.quantity +=1
+  c.save()
+  amount = 0.0
+  shipping_amount = 70.0
+  cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+  for p in cart_product:
+   tempamount =(p.quantity * p.product.discount_price)
+   amount += tempamount
+   total_amount = amount + shipping_amount
+  data ={
+  "quantity": c.quantity,
+  "amount": amount,
+  "total_amount": total_amount,
+  }
+  return JsonResponse(data)
+# Minus cart
+def minus_cart(request):
+ if request.method == "GET":
+  prod_id = request.GET["prod_id"]
+  print(prod_id)
+  c = Cart.objects.get(Q(product = prod_id) & Q(user=request.user))
+  c.quantity -=1
   c.save()
   amount = 0.0
   shipping_amount = 70.0
