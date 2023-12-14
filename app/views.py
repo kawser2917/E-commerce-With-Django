@@ -175,6 +175,20 @@ def checkout(request):
   total_amount = amount + shipping_amount
  return render(request, 'app/checkout.html',{"add":add,"total_amount":total_amount,"cart_items":cart_items})
 
+def payment_done(request):
+ user = request.user
+ custid = request.GET.get("custid")
+ customer = Customer.objects.get(id = custid)
+ cart = Cart.objects.filter(user = user)
+ for c in cart:
+  OrderedPlaced(user = user, customer=customer, product = c.product,quantity = c.quantity).save()
+  c.delete()
+  
+ 
+ 
+ 
+ 
+
 class ProfileView(View):
  def get(self,request):
   form = CustomerProfileView
