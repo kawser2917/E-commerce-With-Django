@@ -19,7 +19,7 @@ class home(View):
 
 # def product_detail(request):
 #  return render(request, 'app/productdetail.html')
-@method_decorator(login_required,name="dispatch")
+# @method_decorator(login_required,name="dispatch")
 class ProductDetailView(View):
  def get(self,request,pk):
   product = Product.objects.get(pk=pk)
@@ -95,7 +95,8 @@ def remove_cart(request):
   "total_amount": amount + shipping_amount,
   }
   return JsonResponse(data)
-   
+
+@login_required   
 def show_cart(request):
  user = request.user
  cart = Cart.objects.filter(user=user)
